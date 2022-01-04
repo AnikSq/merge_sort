@@ -1,17 +1,37 @@
+# frozen_string_literal: true
+
 def merge_sort(array)
-    if array.length < 2
-        return
-    end
+  return array if array.length <= 1
 
-    # sort the left half of the array
-    # sort the right half of the array 
-    # merge them
+  mid = array.length / 2
 
-    half = array.length / 2
-    array_one = array[0...half]
-    array_two = array[half...array.length]
-    first_merge = merge_sort(array_one)
-    second_merge = merge_sort(array_two)
-    
+  left = merge_sort(array[0...mid])
+  right = merge_sort(array[mid..-1])
 
+  merge_two(left, right)
 end
+
+def merge_two(left, right)
+  return_array = []
+
+  left_index = right_index = 0
+
+  while left_index < left.length && right_index < right.length
+    if left[left_index] < right[right_index]
+      return_array.push(left[left_index])
+      left_index += 1
+    else
+      return_array.push(right[right_index])
+      right_index += 1
+    end
+  end
+
+  return_array.push(left[left_index..-1])
+  return_array.push(right[right_index..-1])
+  return_array.flatten!
+  return_array
+end
+
+array = [200, 300, 600, 845, 1235, 543]
+
+p merge_sort(array)
